@@ -7,7 +7,7 @@ import { storage } from '@libs/storage';
 class Webnovel implements Plugin.PluginBase {
   id = 'webnovel';
   name = 'Webnovel';
-  version = '1.0.3';
+  version = '1.0.4';
   icon = 'src/en/webnovel/icon.png';
   site = 'https://www.webnovel.com';
   headers = {
@@ -85,7 +85,9 @@ class Webnovel implements Plugin.PluginBase {
     if (showLatestNovels) {
       url += `novel?orderBy=5&pageIndex=${pageNo}`;
     } else if (filters) {
-      if (filters.genres_gender.value === '1') {
+      if (filters.category.value === 'fanfic') {
+        url += 'fanfic';
+      } else if (filters.genres_gender.value === '1') {
         if (filters.genres_male.value !== '1') {
           url += filters.genres_male.value;
         } else {
@@ -252,6 +254,15 @@ class Webnovel implements Plugin.PluginBase {
   }
 
   filters = {
+    category: {
+      label: 'Category',
+      value: 'novel',
+      options: [
+        { label: 'Novel', value: 'novel' },
+        { label: 'Fan-fic', value: 'fanfic' },
+      ],
+      type: FilterTypes.Picker,
+    },
     sort: {
       label: 'Sort Results By',
       value: '1',
